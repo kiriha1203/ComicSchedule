@@ -2,7 +2,7 @@ class User < ApplicationRecord
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable, :confirmable, :omniauthable, omniauth_providers: %i[google_oauth2]
+         :recoverable, :rememberable, :validatable, :omniauthable, omniauth_providers: %i[google_oauth2]#, :confirmable
 
   enum sex: { man: 0, woman: 1, other: 2}
   enum notification: { one_day_ago: 1, two_day_ago: 2, three_day_ago: 3, four_day_ago: 4, five_day_ago: 5, six_day_ago: 6,
