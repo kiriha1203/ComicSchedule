@@ -10,10 +10,34 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_16_084018) do
+ActiveRecord::Schema.define(version: 2020_06_16_111407) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "book_details", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "title_kana"
+    t.integer "volume", null: false
+    t.integer "page", null: false
+    t.date "release", null: false
+    t.string "amazon_url"
+    t.string "rakuten_url"
+    t.bigint "book_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["book_id"], name: "index_book_details_on_book_id"
+  end
+
+  create_table "books", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "title_kana"
+    t.string "author", null: false
+    t.string "label", null: false
+    t.string "issue_from", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
@@ -39,4 +63,5 @@ ActiveRecord::Schema.define(version: 2020_06_16_084018) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
+  add_foreign_key "book_details", "books"
 end
