@@ -21,7 +21,8 @@ PostgreSQL 12.2
 # 使用予定Gem
 * devise
 * devise-i18n
-* letter_opener_webF
+* devose-i18n-views
+* letter_opener_web
 * dotenv-rails
 * pry-rails
 * better_errors
@@ -34,6 +35,11 @@ PostgreSQL 12.2
 * webdrivers
 * capybara
 * database-cleaner
+* omniauth-google-oauth2
+* enum_help
+* select2-rails
+* whenever
+
 
 # 機能一覧
 * ユーザー機能

@@ -17,12 +17,12 @@
         <td><%#= book_details.volume%></td>
         <td><%#= book_details.volume + 1%></td>
         <td>
-          <% @bookmark = @current_user.bookmarks.find_by(book_id: book.id)%>
+          <% @bookmark = current_user.bookmarks.find_by(book_id: book.id)%>
           <% if @bookmark.present?%>
-            <%= link_to '通知登録を解除する', bookmark_path(id: @bookmark.id),
+            <%= link_to '通知登録を解除する', book_bookmarks_path(book.id),
                         method: :delete, class: 'btn btn-danger' %>
           <% else %>
-            <%= link_to '通知登録する', bookmark_path(book_id: book.id),
+            <%= link_to '通知登録する', book_bookmarks_path(book.id),
                         method: :post, class: 'btn btn-primary' %>
           <% end %>
         </td>

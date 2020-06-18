@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ComicSchedule</title>
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body>
+    <div class="app-title navbar navbar-expand-md navbar-light bg-light">
+      <div class="navbar-brand"> Cs</div>
+
+      <ul class="navbar-nav ml-auto">
+        <% if current_user.admin? %>
+          <li class="nav-item">
+            <a class="navbar-brand">管理者としてログイン中</a>
+          </li>
+          <li class="nav-item"><%= link_to 'ユーザー一覧', admin_users_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'タスク一覧', tasks_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'ラベル一覧', admin_labels_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to '詳細', admin_user_path(current_user.id), class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %></li>
+        <% else %>
+          <li class="nav-item"><%= link_to 'ログイン', login_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to 'サインイン', new_user_path, class: 'nav-link' %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="container">
+      <% flash.each do |name, msg| %>
+        <div class="alert alert-<%= name %>">
+          <%= msg %>
+        </div>
+      <% end %>
+
+      <%= yield %>
+
+    </div>
+  </body>
+</html>

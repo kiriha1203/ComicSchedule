@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'books#index'
 
   resources :books, shallow: true do
+    get :bookmarks_index, on: :collection
     resource :bookmarks, only: %i[create destroy]
     get :bookmarks, on: :collection
   end

@@ -2,6 +2,8 @@ class Admin::BooksController < ApplicationController
   before_action :require_admin
   before_action :set_book, only: [:show, :edit, :update, :destroy]
 
+  layout 'admin_application'
+
   def index
     @books = Book.all
   end

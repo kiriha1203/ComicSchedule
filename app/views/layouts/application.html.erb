@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>ComicSchedule</title>
-    <%= csrf_meta_tags %>
-    <%= csp_meta_tag %>
+<head>
+  <title>ComicSchedule</title>
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
-    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
-  </head>
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+</head>
 
-  <body>
-    <%= yield %>
-  </body>
+<body>
+<div class="app-title navbar navbar-expand-md navbar-light bg-light">
+  <div class="navbar-brand"> CS</div>
+
+  <ul class="navbar-nav ml-auto">
+    <% if current_user %>
+      <li class="nav-item"><%= link_to 'タスク一覧', tasks_path, class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to '詳細', user_path(current_user.id), class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %></li>
+    <% else %>
+      <li class="nav-item"><%= link_to 'ログイン', login_path, class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'サインイン', new_user_path, class: 'nav-link' %></li>
+    <% end %>
+  </ul>
+</div>
+<div class="container">
+  <% flash.each do |name, msg| %>
+    <div class="alert alert-<%= name %>">
+      <%= msg %>
+    </div>
+  <% end %>
+
+  <%= yield %>
+
+</div>
+</body>
 </html>
