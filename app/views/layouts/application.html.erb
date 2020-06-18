@@ -15,12 +15,13 @@
 
   <ul class="navbar-nav ml-auto">
     <% if current_user %>
-      <li class="nav-item"><%= link_to 'タスク一覧', tasks_path, class: 'nav-link' %></li>
-      <li class="nav-item"><%= link_to '詳細', user_path(current_user.id), class: 'nav-link' %></li>
-      <li class="nav-item"><%= link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'トップ', books_path, class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'プロフィール', user_path(current_user.id), class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to '通知一覧',  bookmarks_index_books_path(current_user.id), class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'ログアウト', destroy_user_session_path(current_user.id), method: :delete, class: 'nav-link' %></li>
     <% else %>
-      <li class="nav-item"><%= link_to 'ログイン', login_path, class: 'nav-link' %></li>
-      <li class="nav-item"><%= link_to 'サインイン', new_user_path, class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'ログイン', new_user_session_path, class: 'nav-link' %></li>
+      <li class="nav-item"><%= link_to 'サインイン', new_user_registration_path, class: 'nav-link' %></li>
     <% end %>
   </ul>
 </div>

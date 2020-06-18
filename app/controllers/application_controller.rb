@@ -15,4 +15,16 @@ class ApplicationController < ActionController::Base
   def require_admin
     redirect_to books_url, warning: "管理者権限がありません。" unless current_user.admin?
   end
+
+  def login_required
+    redirect_to new_user_session_path, warning: 'ログインしていません。' unless current_user
+  end
+
+  def change_layout
+    if current_user.admin?
+      layout "admin_application"
+    else
+      layout "application"
+    end
+  end
 end

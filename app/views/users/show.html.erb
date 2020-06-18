@@ -1,0 +1,32 @@
+<h2>プロフィール詳細</h2>
+
+<table class="table table-hover">
+  <tbody>
+  <tr>
+    <th>名前</th>
+    <td><%= @user.name %></td>
+  </tr>
+  <tr>
+    <th>メールアドレス</th>
+    <td><%= @user.email %></td>
+  </tr>
+  <tr>
+    <th>性別</th>
+    <td><%= @user.sex%></td>
+  </tr>
+  <tr>
+    <th>生年月日</th>
+    <td><%= @user.birthday %></td>
+  </tr>
+  <tr>
+    <th>メールお届け日</th>
+    <td><%= @user.notification %></td>
+  </tr>
+  </tbody>
+</table>
+<%= link_to '戻る', root_url, class: 'btn btn-primary mr-3' %>
+<%= link_to '編集', edit_user_registration_path, class: 'btn btn-primary mr-3' %>
+<%= link_to '退会', user_registration_path, method: :delete,
+            data: { confirm: "タスク「#{@user.name}」を削除します。よろしいですか？"},
+            class: 'btn btn-danger'%>
+
