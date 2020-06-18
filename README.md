@@ -58,9 +58,9 @@ PostgreSQL 12.2
     
 * book_detail機能(bookの詳細　１巻,２巻,特装版など)
     * dbへスクレイピンングから正規表現で取り出し、登録させる
-    * ブログ情報詳細表示
-    * ブログ更新機能(adminのみ)
-    * ブログ削除機能(adminのみ)
+    * book_detail情報詳細表示
+    * book_detail更新機能(adminのみ)
+    * book_detail削除機能(adminのみ)
 
 * お気に入り機能
     * ユーザーがお気に入り登録（ブックマーク）できる
