@@ -83,4 +83,4 @@ PostgreSQL 12.2
 [リンク](https://drive.google.com/file/d/1_y-Ar_xEQ4dSnEHaQw2AQCxsuBvj6GG9/view?usp=sharing)
 
 # ワイヤーフレーム
-[リンク](https://drive.google.com/file/d/1_y-Ar_xEQ4dSnEHaQw2AQCxsuBvj6GG9/view?usp=sharing)
+[リンク](https://drive.google.com/file/d/1Siv6DOOUqoHAbZo_BMsOyTGMz89O71DX/view?usp=sharing)
