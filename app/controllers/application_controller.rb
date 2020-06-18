@@ -8,4 +8,9 @@ class ApplicationController < ActionController::Base
     devise_parameter_sanitizer.permit(:sign_up, keys: [:name,:sex, :birthday, :notification])
     devise_parameter_sanitizer.permit(:account_update, keys: [:name, :sex, :birthday, :notification])
   end
+
+  private
+  def require_admin
+    redirect_to books_url, warning: "管理者権限がありません。" unless current_user.admin?
+  end
 end
