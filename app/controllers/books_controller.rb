@@ -3,7 +3,10 @@ class BooksController < ApplicationController
   before_action :change_layout
 
   def index
-    @books = Book.all
+    @books = Book.all.order(:title_kana)
+    if params[:search].present?
+      @books = @books.title_like(params[:title_search])
+    end
   end
 
   def show

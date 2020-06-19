@@ -1,4 +1,16 @@
 <h2>本一覧</h2>
+<%= link_to "あ", books_path(title_search: 'あ', search: 'true'), id: "a_search" %>
+
+<%= form_with(url: books_path,  method: :get, local: true ) do |f| %>
+  <div class="form-group">
+    <%= f.label :title_search, 'タイトル検索' %>
+    <%= f.text_field :title_search, class: 'form-control' %>
+  </div>
+  <div class="form-group">
+    <%= f.hidden_field :search, value: 'true' %>
+  </div>
+  <%= f.submit '検索', class: 'btn btn-primary' %> <%= link_to "リセット", books_path, class: 'btn btn-primary' %>
+<% end %>
 
 <div class="mb-3">
   <table class="table table-hover">
