@@ -11,7 +11,6 @@
     </tr>
     </thead>
     <tbody>
-    <%= binding.irb %>
     <% @books.each do |book| %>
       <tr>
         <td><%= link_to book.title, book_path(book) %></td>

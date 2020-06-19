@@ -14,7 +14,7 @@ class BooksController < ApplicationController
   end
 
   def bookmarks_index
-    @books = current_user.bookmark_books.includes(:user)
+    @books = current_user.bookmark_books
   end
 
   private
