@@ -1,4 +1,4 @@
-<h2>Sign up</h2>
+<h2><%= t('.sign_up') %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
@@ -16,14 +16,9 @@
   <div class="field">
     <%= f.label :password %>
     <% if @minimum_password_length %>
-    <em>(<%= @minimum_password_length %> 文字以上)</em>
+    <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
     <% end %><br />
     <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
@@ -46,8 +41,13 @@
     <%= f.select :notification, User.notifications.keys.map {|k| [I18n.t("enums.user.notification.#{k}"), k]}, include_hidden: false, include_blank: '選択してください', class: 'notification_select2', multiple: true %>
   </div>
 
+  <div class="field">
+    <%= f.label :password_confirmation %><br />
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
   <div class="actions">
-    <%= f.submit "Sign up" %>
+    <%= f.submit t('.sign_up') %>
   </div>
 <% end %>
 

@@ -13,7 +13,7 @@ ja:
         woman: "女性"
         other: "その他"
         birthday: "生年月日"
-        Notification: "何日前に通知しますか"
+        notification: "何日前に通知しますか"
 
     models:
       user: "ユーザ"

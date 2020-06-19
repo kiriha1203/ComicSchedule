@@ -1,7 +1,12 @@
-<h2>Edit <%= resource_name.to_s.humanize %></h2>
+<h2><%= t('.title', resource: resource.model_name.human) %></h2>
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div class="field">
+    <%= f.label :name %><br />
+    <%= f.text_field :name, class: "name" %>
+  </div>
 
   <div class="field">
     <%= f.label :email %><br />
@@ -9,26 +14,26 @@
   </div>
 
   <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div>Currently waiting confirmation for: <%= resource.unconfirmed_email %></div>
+    <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
   <% end %>
 
   <div class="field">
-    <%= f.label :password %> <i>(変更しない場合空にしてください)</i><br />
-    <%= f.password_field :password, autocomplete: "新しいパスワード" %>
+    <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
+    <%= f.password_field :password, autocomplete: "new-password" %>
     <% if @minimum_password_length %>
       <br />
-      <em><%= @minimum_password_length %> 文字以上</em>
+      <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
     <% end %>
   </div>
 
   <div class="field">
     <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "新しいパスワード" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
   </div>
 
   <div class="field">
-    <%= f.label :current_password %> <i>(変更には現在のパスワードが必要です)</i><br />
-    <%= f.password_field :current_password, autocomplete: "現在のパスワード" %>
+    <%= f.label :current_password %> <i>(<%= t('.we_need_your_current_password_to_confirm_your_changes') %>)</i><br />
+    <%= f.password_field :current_password, autocomplete: "current-password" %>
   </div>
 
   <div class="field">
@@ -52,12 +57,12 @@
   </div>
 
   <div class="actions">
-    <%= f.submit "更新" %>
+    <%= f.submit t('.update') %>
   </div>
 <% end %>
 
-<h3>退会</h3>
+<h3><%= t('.cancel_my_account') %></h3>
 
-<%= button_to "退会", registration_path(resource_name), data: { confirm: "本当にいいですか？" }, method: :delete %>
+<%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>
 
-<%= link_to "Back", :back %>
+<%= link_to t('devise.shared.links.back'), :back %>
