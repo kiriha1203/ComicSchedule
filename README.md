@@ -1,6 +1,6 @@
 # README
 
-# Job_Searcher
+# ComicSchedule
 
 # 概要
 
