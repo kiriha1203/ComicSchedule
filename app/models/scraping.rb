@@ -3,6 +3,7 @@ require 'open-uri'
 require 'nokogiri'
 require 'json'
 require 'parallel'
+require 'date'
 
 class RakutenCrawler
 
@@ -10,7 +11,7 @@ class RakutenCrawler
   @@search_title = 'div.item-title > a'
   @@search_detail_xpath  = '//*[@id="productDetailedDescription"]/div/ul'
   @@next_url_xpath = '//*[@id="main-container"]/div[6]/div/div[2]/a'
-  @@page_num = 100
+  @@page_num = 1
   @@user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
   @content_urls = []
   @content_pages = []
@@ -18,13 +19,11 @@ class RakutenCrawler
 
   def self.run
     @content_urls = get_content_link
-    puts @content_urls
     @content_urls.each do |content_url|
       url = content_url
       @@page_num.times do
        dom = read_html(url)
        @content_pages = get_scrape_content_page(dom)
-       puts @content_pages
        url = get_next_url(dom)
        break if url.nil?
       end
@@ -38,6 +37,7 @@ class RakutenCrawler
       end
 
       @details.push(details)
+      puts @details
     end
 
   end
@@ -93,18 +93,46 @@ class RakutenCrawler
   end
 
   def self.scrape_detail_page(dom, detail_title)
-    elements = dom.search(@@search_detail_xpath)
-    release = elements.search('li[1]/span[2]').inner_text
-    author = elements.search('li[2]/span[2]').inner_text
-    title = elements.search('li[3]/span[2]').inner_text
-    label = elements.search('li[4]/span[2]').inner_text
-    issue_from = elements.search('li[6]/span[2]').inner_text
-    volume = elements.search('li[7]/span[2]').inner_text
+    release = ""
+    author = ""
+    title = ""
+    label = ""
+    issue_from = ""
+    page = ""
 
-    {release: release, author: author, title: title, label: label, issue_from: issue_from, volume: volume, detail_title: detail_title}
+    elements = dom.search(@@search_detail_xpath)
+
+    unless elements.at_css("li/span:contains('発売日')").nil?
+      release_str = elements.at_css("li/span:contains('発売日')").parent.search('span[2]').inner_text.delete('頃')
+      release = Date.strptime(release_str, '%Y年%m月%d日')
+    end
+    unless elements.at_css("li/span:contains('著者／編集')").nil?
+      author = elements.at_css("li/span:contains('著者／編集')").parent.search('span[2]').inner_text.gsub!(/\n/, '')
+    end
+    unless elements.at_css("li/span:contains('関連作品')").nil?
+      title = elements.at_css("li/span:contains('関連作品')").parent.search('span[2]').inner_text.gsub!(/\n/, '')
+    end
+    unless elements.at_css("li/span:contains('レーベル')").nil?
+      label = elements.at_css("li/span:contains('レーベル')").parent.search('span[2]').inner_text.gsub!(/\n/, '')
+    end
+    unless elements.at_css("li/span:contains('発行形態')").nil?
+      issue_from = elements.at_css("li/span:contains('発行形態')").parent.search('span[2]').inner_text
+    end
+    unless elements.at_css("li/span:contains('ページ数')").nil?
+      page = elements.at_css("li/span:contains('ページ数')").parent.search('span[2]').inner_text.gsub!(/p/, '').to_i
+    end
+
+    if detail_title.match?('（\d+）')
+      volume = detail_title.match('（\d+）')[0].delete("^0-9").to_i
+    else
+      volume = detail_title.delete("^0-9").to_i
+    end
+
+    detail_title.sub!(/\n.*/m, '')
+
+    {release: release, author: author, title: title, label: label, issue_from: issue_from, page: page, volume: volume, detail_title: detail_title}
   end
 
 end
 
 RakutenCrawler.run
-
