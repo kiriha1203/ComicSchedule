@@ -41,7 +41,6 @@ class Scraping
       month_details.each do |details|
         # titleがnilの場合飛ばす。要改善　正規表現でdetail_titleから取ってくる
         register_in_database(details) unless details[:title] == ""
-
       end
     end
   end
