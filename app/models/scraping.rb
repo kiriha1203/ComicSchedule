@@ -1,11 +1,8 @@
-require 'uri'
-require 'open-uri'
-require 'nokogiri'
-require 'json'
+require 'mechanize'
 require 'parallel'
 require 'date'
 
-class RakutenCrawler
+class Scraping
 
   @@base_url = 'https://books.rakuten.co.jp'
   @@search_title = 'div.item-title > a'
@@ -19,6 +16,7 @@ class RakutenCrawler
 
   def self.run
     @content_urls = get_content_link
+
     @content_urls.each do |content_url|
       url = content_url
       @@page_num.times do
@@ -31,15 +29,21 @@ class RakutenCrawler
       details = Parallel.map(@content_pages, in_threads: 5) do |links|
         url = links[:url]
         detail_title = links[:title]
-        dom = read_detail_html(url)
+        dom = read_html(url)
 
         scrape_detail_page(dom, detail_title)
       end
 
       @details.push(details)
-      puts @details
     end
 
+    @details.each do |month_details|
+      month_details.each do |details|
+        # titleがnilの場合飛ばす。要改善　正規表現でdetail_titleから取ってくる
+        register_in_database(details) unless details[:title] == ""
+
+      end
+    end
   end
 
   def self.get_content_link
@@ -57,14 +61,8 @@ class RakutenCrawler
   end
 
   def self.read_html(url)
-    charset = nil
-    user_agent = {"User-Agent" => @@user_agent}
-    html = open(url, user_agent) do |f|
-      charset = f.charset
-      f.read
-    end
-
-    Nokogiri::HTML.parse(html, nil, charset)
+    agent = Mechanize.new
+    agent.get(url)
   end
 
   def self.get_scrape_content_page(dom)
@@ -86,10 +84,6 @@ class RakutenCrawler
     dom.xpath(@@next_url_xpath)[0].attribute('href').value
   rescue
     nil
-  end
-
-  def self.read_detail_html(url)
-    Nokogiri::HTML(open(url, "User-Agent" => @@user_agent, "Referer" => 'https://books.rakuten.co.jp'))
   end
 
   def self.scrape_detail_page(dom, detail_title)
@@ -133,6 +127,19 @@ class RakutenCrawler
     {release: release, author: author, title: title, label: label, issue_from: issue_from, page: page, volume: volume, detail_title: detail_title}
   end
 
-end
+  def self.register_in_database(details)
+    book = Book.where(title: details[:title]).first_or_initialize
+    book.author = details[:author]
+    book.label = details[:label]
+    book.issue_from = details[:issue_from]
+    book.save
 
-RakutenCrawler.run
+    book_detail = BookDetail.where(title: details[:detail_title]).first_or_initialize
+    book_detail.book_id = book.id
+    book_detail.volume = details[:volume]
+    book_detail.page = details[:page]
+    book_detail.release = details[:release]
+    book_detail.save
+  end
+
+end
