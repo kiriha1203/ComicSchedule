@@ -1,5 +1,9 @@
 <h2>本一覧</h2>
-<%= link_to "あ", books_path(title_search: 'あ', search: 'true'), id: "a_search" %>
+<% japanese_syllabary = []%>
+<% japanese_syllabary = [*"ｱ".."ﾝ"].map{ |chr| NKF.nkf("-h1w", NKF.nkf("-Xw", chr)) }.insert(-10, "").insert(-9, "").insert(-2, "").insert(-2, "を").insert(-1, "") %>
+<% japanese_syllabary.each do |f| %>
+  <%= link_to "#{f}", books_path(syllabary_search: "#{f}", search: 'true'), id: "a_search" %>
+<% end %>
 
 <%= form_with(url: books_path,  method: :get, local: true ) do |f| %>
   <div class="form-group">
@@ -18,7 +22,6 @@
     　<tr>
       <th>タイトル</th>
       <th>最新刊</th>
-      <th>次巻</th>
       <th><%#=ボタン部分のborder延長%></th>
     </tr>
     </thead>
@@ -26,8 +29,11 @@
     <% @books.each do |book| %>
       <tr>
         <td><%= link_to book.title, book_path(book) %></td>
-        <td><%#= book_details.volume%></td>
-        <td><%#= book_details.volume + 1%></td>
+        <% volumes = [] %>
+        <% book.book_details.map do |f| %>
+          <% volumes.push(f.volume) %>
+        <% end %>
+        <td><%= "#{volumes.max}巻" %></td>
         <td>
           <% @bookmark = current_user.bookmarks.find_by(book_id: book.id)%>
           <% if @bookmark.present?%>

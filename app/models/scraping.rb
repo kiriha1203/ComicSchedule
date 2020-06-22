@@ -8,7 +8,7 @@ class Scraping
   @@search_title = 'div.item-title > a'
   @@search_detail_xpath  = '//*[@id="productDetailedDescription"]/div/ul'
   @@next_url_xpath = '//*[@id="main-container"]/div[6]/div/div[2]/a'
-  @@page_num = 1
+  @@page_num = 100
   @@user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
   @content_urls = []
   @content_pages = []
@@ -21,20 +21,22 @@ class Scraping
       url = content_url
       @@page_num.times do
        dom = read_html(url)
-       @content_pages = get_scrape_content_page(dom)
+       @content_pages.push(get_scrape_content_page(dom))
        url = get_next_url(dom)
        break if url.nil?
       end
 
-      details = Parallel.map(@content_pages, in_threads: 5) do |links|
-        url = links[:url]
-        detail_title = links[:title]
-        dom = read_html(url)
+      @content_pages.each do |contents|
+        details = Parallel.map(contents, in_threads: 5) do |links|
+          url = links[:url]
+          detail_title = links[:title]
+          dom = read_html(url)
 
-        scrape_detail_page(dom, detail_title)
+          scrape_detail_page(dom, detail_title)
+        end
+
+        @details.push(details)
       end
-
-      @details.push(details)
     end
 
     @details.each do |month_details|
@@ -97,7 +99,11 @@ class Scraping
 
     unless elements.at_css("li/span:contains('発売日')").nil?
       release_str = elements.at_css("li/span:contains('発売日')").parent.search('span[2]').inner_text.delete('頃')
-      release = Date.strptime(release_str, '%Y年%m月%d日')
+      if release_str.include?('日')
+        release = Date.strptime(release_str, '%Y年%m月%d日')
+      else
+        release = Date.strptime(release_str, '%Y年%m月')
+      end
     end
     unless elements.at_css("li/span:contains('著者／編集')").nil?
       author = elements.at_css("li/span:contains('著者／編集')").parent.search('span[2]').inner_text.gsub!(/\n/, '')

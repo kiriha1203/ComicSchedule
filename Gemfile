@@ -61,6 +61,7 @@ group :development do
   # better_errorsの画面上にirb/pry(PERL)を表示する
   gem 'binding_of_caller'
   gem 'bullet'
+  gem 'letter_opener'
 end
 
 group :test do
