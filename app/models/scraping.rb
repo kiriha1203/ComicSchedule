@@ -4,29 +4,31 @@ require 'date'
 
 class Scraping
 
-  @@base_url = 'https://books.rakuten.co.jp'
-  @@search_title = 'div.item-title > a'
-  @@search_detail_xpath  = '//*[@id="productDetailedDescription"]/div/ul'
-  @@next_url_xpath = '//*[@id="main-container"]/div[6]/div/div[2]/a'
-  @@page_num = 100
-  @@user_agent = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/83.0.4103.106 Safari/537.36'
-  @content_urls = []
-  @content_pages = []
-  @details = []
+  SEARCH_TITLE = 'div.item-title > a'.freeze
+  SEARCH_DETAIL_XPATH  = '//*[@id="productDetailedDescription"]/div/ul'.freeze
+  NEXT_URL_XPATH = '//*[@id="main-container"]/div[6]/div/div[2]/a'.freeze
+  PAGE_NUM = 3.freeze
+
 
   def self.run
-    @content_urls = get_content_link
+    content_urls = []
+    content_pages = []
+    save_details = []
 
-    @content_urls.each do |content_url|
+    puts Time.now
+    puts 'scraping start'
+    content_urls = get_content_link
+
+    content_urls.each do |content_url|
       url = content_url
-      @@page_num.times do
+      PAGE_NUM.times do
        dom = read_html(url)
-       @content_pages.push(get_scrape_content_page(dom))
+       content_pages.push(get_scrape_content_page(dom))
        url = get_next_url(dom)
        break if url.nil?
       end
 
-      @content_pages.each do |contents|
+      content_pages.each do |contents|
         details = Parallel.map(contents, in_threads: 5) do |links|
           url = links[:url]
           detail_title = links[:title]
@@ -34,17 +36,20 @@ class Scraping
 
           scrape_detail_page(dom, detail_title)
         end
+        save_details.push(details)
 
-        @details.push(details)
       end
     end
 
-    @details.each do |month_details|
+    save_details.each do |month_details|
       month_details.each do |details|
         # titleがnilの場合飛ばす。要改善　正規表現でdetail_titleから取ってくる
         register_in_database(details) unless details[:title] == ""
       end
     end
+
+    puts Time.now
+    puts 'scraping end'
   end
 
   def self.get_content_link
@@ -67,7 +72,7 @@ class Scraping
   end
 
   def self.get_scrape_content_page(dom)
-    dom.search(@@search_title).map do |dom_by_title|
+    dom.search(SEARCH_TITLE).map do |dom_by_title|
       {title: get_title(dom_by_title), url: get_article_url(dom_by_title)}
     end
 
@@ -82,7 +87,7 @@ class Scraping
   end
 
   def self.get_next_url(dom)
-    dom.xpath(@@next_url_xpath)[0].attribute('href').value
+    dom.xpath(NEXT_URL_XPATH)[0].attribute('href').value
   rescue
     nil
   end
@@ -95,7 +100,7 @@ class Scraping
     issue_from = ""
     page = ""
 
-    elements = dom.search(@@search_detail_xpath)
+    elements = dom.search(SEARCH_DETAIL_XPATH)
 
     unless elements.at_css("li/span:contains('発売日')").nil?
       release_str = elements.at_css("li/span:contains('発売日')").parent.search('span[2]').inner_text.delete('頃')

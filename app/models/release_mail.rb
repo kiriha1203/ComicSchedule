@@ -2,7 +2,6 @@ require 'date'
 
 class ReleaseMail
   def self.run
-    #　ユーザー数数える
     times = 1..User.count
     times.each do |number|
       user = User.find(number)
@@ -13,7 +12,9 @@ class ReleaseMail
           release_day = detail.release
           puts release_day
           puts Date.today + user.notification_before_type_cast
-          NotificationMailer.send_release_mail(user, detail).deliver if release_day == Date.today + user.notification_before_type_cast
+          if release_day == Date.today + user.notification_before_type_cast
+            NotificationMailer.send_release_mail(user, detail).deliver
+          end
         end
       end
     end

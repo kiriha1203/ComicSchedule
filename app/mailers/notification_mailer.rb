@@ -3,9 +3,10 @@ class NotificationMailer < ApplicationMailer
 
   def send_release_mail
     @user = user
+    @detail = detail
     # 通知設定の漫画を入れる
     mail(
-      subject: "通知の漫画が#{@user.notification}に発売されます",
+      subject: "#{@detail.title}が#{@user.notification}に発売されます",
       to: @user.email
     ) do |format|
       format.text

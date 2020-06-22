@@ -87,3 +87,4 @@ gem 'mechanize'
 gem 'parallel'
 gem 'activerecord'
 gem 'whenever', require: false
+gem 'kaminari'
