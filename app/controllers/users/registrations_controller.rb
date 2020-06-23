@@ -59,4 +59,13 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # def after_inactive_sign_up_path_for(resource)
   #   super(resource)
   # end
+  #
+  private
+  def change_layout
+    render layout: 'admin_application' if current_user.admin?
+  end
+
+  def change_layout_render(action)
+    current_user.admin? ? (render action, layout: 'admin_application') : (render action)
+  end
 end

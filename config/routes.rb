@@ -6,6 +6,11 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[show]
 
+
+  namespace :admin do
+    resources :books
+  end
+
   resources :books, shallow: true do
     get :bookmarks_index, on: :collection
     resource :bookmarks, only: %i[create destroy]

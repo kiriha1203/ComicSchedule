@@ -13,7 +13,7 @@
   <div class="form-group">
     <%= f.hidden_field :search, value: 'true' %>
   </div>
-  <%= f.submit '検索', class: 'btn btn-primary' %> <%= link_to "リセット", books_path, class: 'btn btn-primary' %>
+  <%= f.submit '検索', class: 'btn btn-primary' %> <%= link_to "リセット", admin_books_path, class: 'btn btn-primary' %>
 <% end %>
 
 <div class="mb-3">
@@ -28,25 +28,20 @@
     <tbody>
     <% @books.each do |book| %>
       <tr>
-        <td><%= link_to book.title, book_path(book) %></td>
+        <td><%= link_to book.title, admin_book_path(book) %></td>
         <% volumes = [] %>
         <% book.book_details.map do |f| %>
           <% volumes.push(f.volume) %>
         <% end %>
         <td><%= "#{volumes.max}巻" %></td>
         <td>
-          <% @bookmark = current_user.bookmarks.find_by(book_id: book.id)%>
-          <% if @bookmark.present?%>
-            <%= link_to '通知登録を解除する', book_bookmarks_path(book.id),
-                        method: :delete, class: 'btn btn-danger' %>
-          <% else %>
-            <%= link_to '通知登録する', book_bookmarks_path(book.id),
-                        method: :post, class: 'btn btn-primary' %>
-          <% end %>
+          <%= link_to '編集', edit_admin_book_path(book), class: 'btn btn-primary mr-3' %>
+          <%= link_to '削除', book, method: :delete,
+                      data: { confirm: "タスク「#{book.title}」を削除します。よろしいですか？"},
+                      class: 'btn btn-danger'%>
         </td>
       </tr>
     <% end %>
     </tbody>
   </table>
-  <%= paginate @books %>
 </div>

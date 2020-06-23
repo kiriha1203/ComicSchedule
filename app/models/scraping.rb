@@ -7,12 +7,10 @@ class Scraping
   SEARCH_TITLE = 'div.item-title > a'.freeze
   SEARCH_DETAIL_XPATH  = '//*[@id="productDetailedDescription"]/div/ul'.freeze
   NEXT_URL_XPATH = '//*[@id="main-container"]/div[6]/div/div[2]/a'.freeze
-  PAGE_NUM = 3.freeze
+  PAGE_NUM = 100.freeze
 
 
   def self.run
-    content_urls = []
-    content_pages = []
     save_details = []
 
     puts Time.now
@@ -20,6 +18,7 @@ class Scraping
     content_urls = get_content_link
 
     content_urls.each do |content_url|
+      content_pages = []
       url = content_url
       PAGE_NUM.times do
        dom = read_html(url)
@@ -41,13 +40,23 @@ class Scraping
       end
     end
 
+    puts 'scraping count'
+    puts save_details.count
+
+    save_counter = 0
     save_details.each do |month_details|
       month_details.each do |details|
         # titleがnilの場合飛ばす。要改善　正規表現でdetail_titleから取ってくる
-        register_in_database(details) unless details[:title] == ""
+        # register_in_database(details) unless details[:title] == ""
+        unless details[:title] == ""
+          save_counter += 1
+          register_in_database(details)
+        end
       end
     end
 
+    puts 'db save counter'
+    puts save_counter
     puts Time.now
     puts 'scraping end'
   end
