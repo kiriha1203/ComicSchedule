@@ -12,10 +12,50 @@ class User < ApplicationRecord
                        seven_day_ago: 7, eight_day_ago: 8, nine_day_ago: 9, ten_day_ago: 10 ,eleven_day_ago: 11, twelve_day_ago: 12,
                        thirteen_day_ago: 13, fourteen_day_ago: 14 }
 
-  def self.from_omniauth(auth)
-    where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
-      user.email = auth.info.email
-      user.password = Devise.friendly_token[0,20]
+  def self.without_sns_data(auth)
+    user = User.where(email: auth.info.email).first
+
+    if user.present?
+      sns = SnsCredential.create(
+        uid: auth.uid,
+        provider: auth.provider,
+        user_id: user.id
+      )
+    else
+      user = User.new(
+        nickname: auth.info.name,
+        email: auth.info.email,
+        )
+      sns = SnsCredential.new(
+        uid: auth.uid,
+        provider: auth.provider
+      )
     end
+    return { user: user ,sns: sns}
+  end
+
+  def self.with_sns_data(auth, snscredential)
+    user = User.where(id: snscredential.user_id).first
+    unless user.present?
+      user = User.new(
+        nickname: auth.info.name,
+        email: auth.info.email,
+        )
+    end
+    return {user: user}
+  end
+
+  def self.find_oauth(auth)
+    uid = auth.uid
+    provider = auth.provider
+    snscredential = SnsCredential.where(uid: uid, provider: provider).first
+    if snscredential.present?
+      user = with_sns_data(auth, snscredential)[:user]
+      sns = snscredential
+    else
+      user = without_sns_data(auth)[:user]
+      sns = without_sns_data(auth)[:sns]
+    end
+    return { user: user ,sns: sns}
   end
 end
