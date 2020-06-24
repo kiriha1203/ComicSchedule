@@ -6,7 +6,6 @@
     　<tr>
       <th>タイトル</th>
       <th>最新刊</th>
-      <th>次巻</th>
       <th><%#=ボタン部分のborder延長%></th>
     </tr>
     </thead>
@@ -14,8 +13,11 @@
     <% @books.each do |book| %>
       <tr>
         <td><%= link_to book.title, book_path(book) %></td>
-        <td><%#= book_details.volume%></td>
-        <td><%#= book_details.volume + 1%></td>
+        <% volumes = [] %>
+        <% book.book_details.map do |f| %>
+          <% volumes.push(f.volume) %>
+        <% end %>
+        <td><%= "#{volumes.max}巻" %></td>
         <td>
           <% @bookmark = current_user.bookmarks.find_by(book_id: book.id)%>
           <% if @bookmark.present?%>
