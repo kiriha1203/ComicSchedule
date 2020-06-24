@@ -8,7 +8,13 @@ Rails.application.routes.draw do
 
 
   namespace :admin do
-    resources :books
+    resources :books, shallow: true do
+      get :new_index, on: :collection
+    end
+    resources :book_details, shallow: true do
+      get :new_index, on: :collection
+    end
+
   end
 
   resources :books, shallow: true do

@@ -1,0 +1,31 @@
+<h2>本詳細の詳細</h2>
+
+<table class="table table-hover">
+  <tbody>
+  <tr>
+    <th>タイトル</th>
+    <td><%= @book_detail.title %></td>
+  </tr>
+  <tr>
+    <th>タイトル（平仮名）</th>
+    <td><%= @book_detail.title_kana %></td>
+  </tr>
+  <tr>
+    <th>巻数</th>
+    <td><%= @book_detail.volume%></td>
+  </tr>
+  <tr>
+    <th>ページ数</th>
+    <td><%= @book_detail.page %></td>
+  </tr>
+  <tr>
+    <th>発売日</th>
+    <td><%= @book_detail.release%></td>
+  </tr>
+  </tbody>
+</table>
+
+<%= link_to '編集',  edit_admin_book_detail_path, class: 'btn btn-primary mr-3' %>
+<%= link_to '削除', [:admin, @book_detail], method: :delete,
+            data: { confirm: "「#{@book_detail.title}」を削除します。よろしいですか？"},
+            class: 'btn btn-danger' %>

@@ -151,6 +151,8 @@ GEM
       activerecord
       kaminari-core (= 1.2.1)
     kaminari-core (1.2.1)
+    kuromoji (0.0.1)
+      rjb
     launchy (2.5.0)
       addressable (~> 2.7)
     letter_opener (1.7.0)
@@ -268,6 +270,10 @@ GEM
     responders (3.0.1)
       actionpack (>= 5.0)
       railties (>= 5.0)
+    rjb (1.6.1)
+    romaji (0.2.4)
+      rake (>= 0.8.0)
+    romkan (0.4.0)
     rspec-core (3.9.2)
       rspec-support (~> 3.9.3)
     rspec-expectations (3.9.2)
@@ -363,6 +369,9 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     yard (0.9.25)
+    zipang (0.0.1)
+      kuromoji
+      romaji
 
 PLATFORMS
   ruby
@@ -388,6 +397,7 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   kaminari
+  kuromoji
   letter_opener
   listen (>= 3.0.5, < 3.2)
   mechanize
@@ -401,6 +411,9 @@ DEPENDENCIES
   pry-stack_explorer
   puma (~> 3.11)
   rails (~> 5.2.4, >= 5.2.4.3)
+  rjb
+  romaji
+  romkan
   rspec-rails
   rspec-retry
   sass-rails (~> 5.0)
@@ -414,6 +427,7 @@ DEPENDENCIES
   web-console (>= 3.3.0)
   webdrivers
   whenever
+  zipang
 
 RUBY VERSION
    ruby 2.6.5p114

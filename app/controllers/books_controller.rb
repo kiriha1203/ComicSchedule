@@ -1,7 +1,7 @@
 class BooksController < ApplicationController
   before_action :login_required
-  before_action :change_layout
   before_action :go_admin
+  before_action :change_layout
   PER = 20
 
   def index
@@ -14,6 +14,7 @@ class BooksController < ApplicationController
 
   def show
     @book = Book.find(params[:id])
+    @book_details = @book.book_details
   end
 
   def bookmarks_index
@@ -31,5 +32,9 @@ class BooksController < ApplicationController
 
   def change_layout
     render layout: 'admin_application' if current_user.admin?
+  end
+
+  def go_admin
+    redirect_to admin_books_url if current_user.admin?
   end
 end

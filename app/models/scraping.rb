@@ -1,13 +1,15 @@
 require 'mechanize'
 require 'parallel'
 require 'date'
+require "romaji/core_ext/string"
+require 'romkan'
 
 class Scraping
 
   SEARCH_TITLE = 'div.item-title > a'.freeze
   SEARCH_DETAIL_XPATH  = '//*[@id="productDetailedDescription"]/div/ul'.freeze
   NEXT_URL_XPATH = '//*[@id="main-container"]/div[6]/div/div[2]/a'.freeze
-  PAGE_NUM = 100.freeze
+  PAGE_NUM = 2.freeze
 
 
   def self.run
@@ -27,6 +29,9 @@ class Scraping
        break if url.nil?
       end
 
+
+      puts 'content_page'
+      puts content_pages
       content_pages.each do |contents|
         details = Parallel.map(contents, in_threads: 5) do |links|
           url = links[:url]
@@ -47,16 +52,11 @@ class Scraping
     save_details.each do |month_details|
       month_details.each do |details|
         # titleがnilの場合飛ばす。要改善　正規表現でdetail_titleから取ってくる
-        # register_in_database(details) unless details[:title] == ""
-        unless details[:title] == ""
-          save_counter += 1
-          register_in_database(details)
-        end
+        register_in_database(details) unless details[:title] == ""
       end
     end
 
-    puts 'db save counter'
-    puts save_counter
+    puts save_details
     puts Time.now
     puts 'scraping end'
   end
@@ -124,6 +124,7 @@ class Scraping
     end
     unless elements.at_css("li/span:contains('関連作品')").nil?
       title = elements.at_css("li/span:contains('関連作品')").parent.search('span[2]').inner_text.gsub!(/\n/, '')
+      title_kana = (Zipang.to_slug title.tr('０-９ａ-ｚＡ-Ｚ　', '0-9a-zA-Z ').romaji).gsub(/\-/, '').to_kana
     end
     unless elements.at_css("li/span:contains('レーベル')").nil?
       label = elements.at_css("li/span:contains('レーベル')").parent.search('span[2]').inner_text.gsub!(/\n/, '')
@@ -143,11 +144,12 @@ class Scraping
 
     detail_title.sub!(/\n.*/m, '')
 
-    {release: release, author: author, title: title, label: label, issue_from: issue_from, page: page, volume: volume, detail_title: detail_title}
+    {release: release, author: author, title: title, title_kana: title_kana, label: label, issue_from: issue_from, page: page, volume: volume, detail_title: detail_title}
   end
 
   def self.register_in_database(details)
     book = Book.where(title: details[:title]).first_or_initialize
+    book.title_kana = details[:title_kana] if book.title_kana.nil?
     book.author = details[:author]
     book.label = details[:label]
     book.issue_from = details[:issue_from]

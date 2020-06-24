@@ -1,20 +1,4 @@
-<h2>本一覧</h2>
-<% japanese_syllabary = []%>
-<% japanese_syllabary = [*"ｱ".."ﾝ"].map{ |chr| NKF.nkf("-h1w", NKF.nkf("-Xw", chr)) }.insert(-10, "").insert(-9, "").insert(-2, "").insert(-2, "を").insert(-1, "") %>
-<% japanese_syllabary.each do |f| %>
-  <%= link_to "#{f}", books_path(syllabary_search: "#{f}", search: 'true'), id: "a_search" %>
-<% end %>
-
-<%= form_with(url: books_path,  method: :get, local: true ) do |f| %>
-  <div class="form-group">
-    <%= f.label :title_search, 'タイトル検索' %>
-    <%= f.text_field :title_search, class: 'form-control' %>
-  </div>
-  <div class="form-group">
-    <%= f.hidden_field :search, value: 'true' %>
-  </div>
-  <%= f.submit '検索', class: 'btn btn-primary' %> <%= link_to "リセット", admin_books_path, class: 'btn btn-primary' %>
-<% end %>
+<h2>新規登録一覧</h2>
 
 <div class="mb-3">
   <table class="table table-hover">

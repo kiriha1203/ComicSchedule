@@ -20,9 +20,9 @@
           </li>
           <li class="nav-item"><%= link_to 'トップ', admin_books_path, class: 'nav-link' %></li>
           <li class="nav-item"><%= link_to 'プロフィール', user_path(current_user.id), class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to '新規登録分',  class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to '新刊情報一覧',  class: 'nav-link' %></li>
-          <li class="nav-item"><%= link_to '新規新刊情報',  class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to '新規登録分',  new_index_admin_books_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to '新刊情報一覧', admin_book_details_path, class: 'nav-link' %></li>
+          <li class="nav-item"><%= link_to '新規新刊情報', new_index_admin_book_details_path, class: 'nav-link' %></li>
           <li class="nav-item"><%= link_to 'ログアウト',  destroy_user_session_path, method: :delete, class: 'nav-link' %></li>
         <% else %>
           <li class="nav-item"><%= link_to 'ログイン', new_user_session_path, class: 'nav-link' %></li>

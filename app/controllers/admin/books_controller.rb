@@ -8,6 +8,10 @@ class Admin::BooksController < ApplicationController
     @books = Book.all
   end
 
+  def new_index
+    @books = Book.where(title_kana: nil)
+  end
+
   def new
     @book = Book.new
   end
@@ -21,13 +25,15 @@ class Admin::BooksController < ApplicationController
     end
   end
 
-  def show; end
+  def show
+    @details = @book.book_details
+  end
 
   def edit; end
 
   def update
     if @book.update(book_params)
-      redirect_to admin_book_url, success: "タスク「#{@book.title}」を更新しました。"
+      redirect_to admin_books_url, success: "タスク「#{@book.title}」を更新しました。"
     else
       render :edit
     end

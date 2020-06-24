@@ -1,0 +1,29 @@
+<h2>新刊情報一覧</h2>
+
+<div class="mb-3">
+  <table class="table table-hover">
+    <thead class="thead-default">
+    　<tr>
+      <th>タイトル</th>
+      <th>タイトル(かな）</th>
+      <th>巻数</th>
+      <th><%#=ボタン部分のborder延長%></th>
+    </tr>
+    </thead>
+    <tbody>
+    <% @book_details.each do |book_detail| %>
+      <tr>
+        <td><%= link_to book_detail.title, admin_book_detail_path(book_detail) %></td>
+        <td><%=  book_detail.title_kana %></td>
+        <td><%=  book_detail.volume %></td>
+        <td>
+          <%= link_to '編集', edit_admin_book_detail_path(book_detail), class: 'btn btn-primary mr-3' %>
+          <%= link_to '削除', admin_book_detail_path(book_detail), method: :delete,
+                      data: { confirm: "タスク「#{book_detail.title}」を削除します。よろしいですか？"},
+                      class: 'btn btn-danger'%>
+        </td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

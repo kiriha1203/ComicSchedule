@@ -88,3 +88,8 @@ gem 'parallel'
 gem 'activerecord'
 gem 'whenever', require: false
 gem 'kaminari'
+gem 'rjb'
+gem 'kuromoji'
+gem 'romaji'
+gem 'zipang'
+gem 'romkan'

@@ -12,9 +12,6 @@ class ApplicationController < ActionController::Base
   end
 
   private
-  def go_admin
-    redirect_to admin_book_url if current_user.admin?
-  end
 
   def require_admin
     redirect_to books_url, warning: "管理者権限がありません。" unless current_user.admin?
