@@ -8,7 +8,7 @@ class Scraping
   SEARCH_TITLE = 'div.item-title > a'.freeze
   SEARCH_DETAIL_XPATH  = '//*[@id="productDetailedDescription"]/div/ul'.freeze
   NEXT_URL_XPATH = '//*[@id="main-container"]/div[6]/div/div[2]/a'.freeze
-  PAGE_NUM = 2.freeze
+  PAGE_NUM = 100.freeze
 
 
   def self.run
