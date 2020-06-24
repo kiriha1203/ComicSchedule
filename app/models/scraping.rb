@@ -1,7 +1,6 @@
 require 'mechanize'
 require 'parallel'
 require 'date'
-require 'romkan'
 
 class Scraping
 
