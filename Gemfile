@@ -62,6 +62,7 @@ group :development do
   gem 'binding_of_caller'
   gem 'bullet'
   gem 'letter_opener'
+  gem 'letter_opener_web'
 end
 
 group :test do

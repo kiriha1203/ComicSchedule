@@ -7,8 +7,8 @@ set :output, "#{rails_root}/log/cron.log"
 
 every 1.day, :at => '10:00 am' do
   runner "Scraping.run"
+  runner "ReleaseMail.run"
 end
-
 
 # 変更後は　bundle exec wheneverで確認
 # bundle exec whenever --update-crontab で更新

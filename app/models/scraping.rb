@@ -143,7 +143,6 @@ class Scraping
 
   def self.register_in_database(details)
     book = Book.where(title: details[:title]).first_or_initialize
-    book.title_kana = details[:title_kana] if book.title_kana.nil?
     book.author = details[:author]
     book.label = details[:label]
     book.issue_from = details[:issue_from]

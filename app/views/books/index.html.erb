@@ -1,4 +1,6 @@
 <h2>本一覧</h2>
+<br>
+<h6>五十音検索</h6>
 <% japanese_syllabary = []%>
 <% japanese_syllabary = [*"ｱ".."ﾝ"].map{ |chr| NKF.nkf("-h1w", NKF.nkf("-Xw", chr)) }.insert(-10, "").insert(-9, "").insert(-2, "").insert(-2, "を").insert(-1, "") %>
 <% japanese_syllabary.each do |f| %>

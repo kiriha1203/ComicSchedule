@@ -20,5 +20,7 @@ Rails.application.routes.draw do
     resource :bookmarks, only: %i[create destroy]
     get :bookmarks, on: :collection
   end
+
+  mount LetterOpenerWeb::Engine, at: '/letter_opener' if Rails.env.development?
 end
 

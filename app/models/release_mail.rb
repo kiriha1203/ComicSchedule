@@ -10,10 +10,8 @@ class ReleaseMail
         details = Book.find(detail_search).book_details
         details.each do |detail|
           release_day = detail.release
-          puts release_day
-          puts Date.today + user.notification_before_type_cast
           if release_day == Date.today + user.notification_before_type_cast
-            NotificationMailer.send_release_mail(user, detail).deliver
+            NotificationMailer.send_release_mail(user, detail).deliver_now
           end
         end
       end
