@@ -55,6 +55,7 @@
     <orderEntry type="library" scope="PROVIDED" name="capistrano-bundler (v1.6.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capistrano-rails (v1.5.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="capybara (v3.33.0, rbenv: 2.6.5) [gem]" level="application" />
+    <orderEntry type="library" scope="PROVIDED" name="capybara-screenshot (v1.0.24, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="childprocess (v3.0.0, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="chronic (v0.10.2, rbenv: 2.6.5) [gem]" level="application" />
     <orderEntry type="library" scope="PROVIDED" name="coderay (v1.1.3, rbenv: 2.6.5) [gem]" level="application" />

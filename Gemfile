@@ -46,6 +46,8 @@ group :development, :test do
   gem 'pry-byebug' # デバッグを実施(Ruby 2.0以降で動作する)
   gem 'pry-stack_explorer' # スタックをたどれる
   gem 'bullet'
+  gem 'rspec-retry'
+  gem 'launchy'
 end
 
 group :development do
@@ -70,6 +72,8 @@ group :test do
   gem 'webdrivers'
   gem 'database_cleaner'
   gem 'rspec-retry'
+  gem 'capybara-screenshot'
+  gem 'selenium-webdriver'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
