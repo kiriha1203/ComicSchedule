@@ -1,6 +1,5 @@
 <h2>本詳細</h2>
-
-<% link_to '戻る',:back, class: 'btn btn-primary mr-3' %>
+<%= link_to '戻る',:back, class: 'btn btn-primary mr-3' %>
 
 <table class="table table-hover">
   <tbody>
@@ -26,6 +25,16 @@
   </tr>
   </tbody>
 </table>
+
+<% @bookmark = current_user.bookmarks.find_by(book_id: @book.id)%>
+<% if @bookmark.present?%>
+  <%= link_to '通知登録を解除する', book_bookmarks_path(@book.id),
+              method: :delete, class: 'btn btn-danger' %>
+<% else %>
+  <%= link_to '通知登録する', book_bookmarks_path(@book.id),
+              method: :post, class: 'btn btn-primary' %>
+<% end %>
+
 <h2> 巻数情報</h2>
 <table>
   <tbody>

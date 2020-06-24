@@ -7,7 +7,7 @@ class BooksController < ApplicationController
   def index
     @books = Book.all.order(:title_kana)
     if params[:search].present?
-      @books = @books.syllabary_like(params[:syllabary_search]).title_like
+      @books = @books.syllabary_like(params[:syllabary_search]).title_like(params[:title_search])
     end
     @books = @books.page(params[:page]).per(PER)
   end

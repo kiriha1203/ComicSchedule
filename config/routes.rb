@@ -6,7 +6,6 @@ Rails.application.routes.draw do
 
   resources :users, only: %i[show]
 
-
   namespace :admin do
     resources :books, shallow: true do
       get :new_index, on: :collection
@@ -14,7 +13,6 @@ Rails.application.routes.draw do
     resources :book_details, shallow: true do
       get :new_index, on: :collection
     end
-
   end
 
   resources :books, shallow: true do
