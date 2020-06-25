@@ -24,7 +24,7 @@ FactoryBot.define do
     id { 3 }
     name { "admin_user" }
     email { "admin@example.com" }
-    password { "0000000" }
+    password { "password" }
     sex { 1 }
     birthday { Date.new(1990, 1, 1) }
     notification { 3 }
