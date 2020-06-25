@@ -40,7 +40,7 @@ RSpec.describe 'ユーザ登録・ログイン・ログアウト機能', type: :
         click_on "登録する"
         expect(page).to have_content "change_title"
       end
-      it "管理者はユーザの削除をできること" do
+      it "管理者は本の削除をできること" do
         click_link "削除"
         page.accept_confirm
         visit admin_books_path

@@ -19,7 +19,7 @@ class Book < ApplicationRecord
   scope :title_like, -> (title_search) do
     next if title_search.blank?
     title_kana_search = NKF.nkf('-w -X', title_search).tr("A-Za-z0-9","Ａ-Ｚａ-ｚ０-９").tr('ァ-ン','ぁ-ん')
-    where( "books.title LIKE ?" , "%#{title_search}%").or(where("books.title_kana LIKE ?", "%#{title_kana_search}%" ))
+    where( "books.title LIKE ?" , "%#{title_search}%").or(where("books.title_kana LIKE ?", "%#{title_kana_search}%") )
   end
 
 end

@@ -31,6 +31,5 @@ RSpec.describe '通知登録機能', type: :system do
       visit bookmarks_index_books_path
       expect(page).to have_content "異世界ですが魔物栽培してます"
     end
-
   end
 end
