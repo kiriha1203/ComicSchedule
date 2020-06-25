@@ -31,25 +31,23 @@
             class: 'btn btn-danger' %>
 
 <h2> 巻数情報</h2>
-<table>
-  <tbody>
-  <% @book_details.each do |detail| %>
+<div class="mb-3">
+  <table class="table table-hover">
+    <thead class="thead-default">
     <tr>
       <th>タイトル</th>
-      <td><%= detail.title %></td>
-    </tr>
-    <tr>
       <th>巻数</th>
-      <td><%= detail.volume %></td>
-    </tr>
-    <tr>
       <th>発売日</th>
-      <td><%= detail.release %></td>
     </tr>
-    <%= link_to '編集',  edit_admin_book_detail_path, class: 'btn btn-primary mr-3' %>
-    <%= link_to '削除', [:admin, detail], method: :delete,
-                data: { confirm: "「#{detail.title}」を削除します。よろしいですか？"},
-                class: 'btn btn-danger' %>
-  <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+    <% @book_details.each do |detail| %>
+      <tr>
+        <td><%= detail.title %></td>
+        <td><%= detail.volume %></td>
+        <td><%= detail.release %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>
