@@ -1,8 +1,8 @@
+@font-face{
+  font-family: 'fgzero';
+  src: font-url('fgzerorabaulfont.otf') format('truetype');
+}
 
-.app-title navbar navbar-expand-md navbar-light bg-light {
-  .navber-brand {
-    a {
-      font-family: 'fgzerorabaulfont';
-    }
-  }
+.navbar-brand{
+  font-family: 'fgzero';
 }

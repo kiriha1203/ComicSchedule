@@ -1,54 +1,70 @@
-<h2><%= t('.sign_up') %></h2>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 mx-auto">
+      <h2 class="text-center"><%= t('.sign_up') %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, class: "name" %>
+        <div class="form-group">
+          <div class="form-group">
+            <%= f.label :name %><br />
+            <%= f.text_field :name, autofocus: true, placeholder: 'お名前を入力してください', class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :email %><br />
+            <%= f.email_field :email, autofocus: true, autocomplete: "email", placeholder: 'メールアドレスを入力してください', class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password %>
+            <% if @minimum_password_length %>
+            <a><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></a>
+            <% end %><br />
+            <%= f.password_field :password, autocomplete: "new-password", placeholder: "パスワードを入力してください", class: "form-control" %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :sex %><br />
+            <div class="form-check">
+              <div class="form-check-inline"
+                <%= f.label :man, class: 'form-check-label' %>
+                <%= f.radio_button :sex, :man, class: 'form-check-input'%>
+                <%= f.label :woman, class: 'form-check-label'  %>
+                <%= f.radio_button :sex, :woman, class: 'form-check-input' %>
+                <%= f.label :other, class: 'form-check-label'  %>
+                <%= f.radio_button :sex, :other, class: 'form-check-input' %>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :birthday %><br />
+            <%= f.date_select :birthday, use_month_numbers: true, start_year: 1900, end_year: Time.now.year, default: Date.new(2000, 1, 1), class: 'form-control' %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :notification %><br />
+            <%= f.select :notification, User.notifications.keys.map {|k| [I18n.t("enums.user.notification.#{k}"), k]}, include_hidden: false, include_blank: '選択してください', class: 'form-control', multiple: true %>
+          </div>
+
+          <div class="form-group">
+            <%= f.label :password_confirmation %><br />
+            <%= f.password_field :password_confirmation, autocomplete: "new-password", placeholder: "パスワードをもう一度入力してください", class: 'form-control' %>
+          </div>
+
+          <br>
+          <div class="actions">
+            <%= f.submit t('.sign_up'), class: 'btn btn-primary btn-block' %>
+          </div>
+        </div>
+      <% end %>
+
+      <%= render "devise/shared/links" %>
+
+
+    </div>
   </div>
+</div>
 
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password %>
-    <% if @minimum_password_length %>
-    <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
-    <% end %><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :sex %><br />
-    <%= f.label :man %>
-    <%= f.radio_button :sex, :man %>
-    <%= f.label :woman %>
-    <%= f.radio_button :sex, :woman %>
-    <%= f.label :other %>
-    <%= f.radio_button :sex, :other %>
-  </div>
-
-  <div class="field">
-    <%= f.label :birthday %><br />
-    <%= f.date_select :birthday, use_month_numbers: true, start_year: 1900, end_year: Time.now.year, default: Date.new(2000, 1, 1) %>
-  </div>
-
-  <div class="field">
-    <%= f.label :notification %><br />
-    <%= f.select :notification, User.notifications.keys.map {|k| [I18n.t("enums.user.notification.#{k}"), k]}, include_hidden: false, include_blank: '選択してください', class: 'notification_select2', multiple: true %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('.sign_up') %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>

@@ -1,63 +1,73 @@
-<h2><%= t('.title', resource: resource.model_name.human) %></h2>
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 col-md-offset-3 mx-auto">
+      <h2 class="text-center"><%= t('.title', resource: resource.model_name.human) %></h2>
 
-<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
-  <%= render "devise/shared/error_messages", resource: resource %>
+      <%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { method: :put }) do |f| %>
+        <%= render "devise/shared/error_messages", resource: resource %>
 
-  <div class="field">
-    <%= f.label :name %><br />
-    <%= f.text_field :name, class: "name" %>
+        <div class="form-group">
+          <%= f.label :name %><br />
+          <%= f.text_field :name, class: "form-control" %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :email %><br />
+          <%= f.email_field :email, autofocus: true, autocomplete: "email", class: 'form-control' %>
+        </div>
+
+        <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
+          <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
+        <% end %>
+
+        <div class="form-group">
+          <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
+          <%= f.password_field :password, autocomplete: "new-password", class: 'form-control' %>
+          <% if @minimum_password_length %>
+            <br />
+            <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
+          <% end %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :password_confirmation %><br />
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :sex %><br />
+          <div class="form-check">
+            <div class="form-check-inline">
+              <%= f.label :man, class: 'form-check-label'%>
+              <%= f.radio_button :sex, :man, class: 'form-check-input' %>
+              <%= f.label :woman, class: 'form-check-label' %>
+              <%= f.radio_button :sex, :woman, class: 'form-check-input' %>
+              <%= f.label :other, class: 'form-check-label' %>
+              <%= f.radio_button :sex, :other, class: 'form-check-input' %>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :birthday %><br />
+          <%= f.date_select :birthday, use_month_numbers: true, start_year: 1900, end_year: Time.now.year, default: Date.new(2000, 1, 1), class: 'form-control' %>
+        </div>
+
+        <div class="form-group">
+          <%= f.label :notification %><br />
+          <%= f.select :notification, User.notifications.keys.map {|k| [I18n.t("enums.user.notification.#{k}"), k]}, include_hidden: false, include_blank: '選択してください', class: 'form-control', multiple: true %>
+        </div>
+
+        <div class="actions">
+          <%= f.submit t('.update'), class: 'btn btn-primary btn-block' %>
+        </div>
+      <% end %>
+         <br/>
+         <h6 class="text-center"><%= t('.cancel_my_account') %></h6>
+
+         <%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete, class: 'btn btn-danger btn-block' %>
+
+         <%= link_to t('devise.shared.links.back'), :back %>
+    </div>
   </div>
-
-  <div class="field">
-    <%= f.label :email %><br />
-    <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
-  </div>
-
-  <% if devise_mapping.confirmable? && resource.pending_reconfirmation? %>
-    <div><%= t('.currently_waiting_confirmation_for_email', email: resource.unconfirmed_email) %></div>
-  <% end %>
-
-  <div class="field">
-    <%= f.label :password %> <i>(<%= t('.leave_blank_if_you_don_t_want_to_change_it') %>)</i><br />
-    <%= f.password_field :password, autocomplete: "new-password" %>
-    <% if @minimum_password_length %>
-      <br />
-      <em><%= t('devise.shared.minimum_password_length', count: @minimum_password_length) %></em>
-    <% end %>
-  </div>
-
-  <div class="field">
-    <%= f.label :password_confirmation %><br />
-    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
-  </div>
-
-  <div class="field">
-    <%= f.label :sex %><br />
-    <%= f.label :man %>
-    <%= f.radio_button :sex, :man %>
-    <%= f.label :woman %>
-    <%= f.radio_button :sex, :woman %>
-    <%= f.label :other %>
-    <%= f.radio_button :sex, :other %>
-  </div>
-
-  <div class="field">
-    <%= f.label :birthday %><br />
-    <%= f.date_select :birthday, use_month_numbers: true, start_year: 1900, end_year: Time.now.year, default: Date.new(2000, 1, 1) %>
-  </div>
-
-  <div class="field">
-    <%= f.label :notification %><br />
-    <%= f.select :notification, User.notifications.keys.map {|k| [I18n.t("enums.user.notification.#{k}"), k]}, include_hidden: false, include_blank: '選択してください', class: 'notification_select2', multiple: true %>
-  </div>
-
-  <div class="actions">
-    <%= f.submit t('.update') %>
-  </div>
-<% end %>
-
-<h3><%= t('.cancel_my_account') %></h3>
-
-<%= button_to t('.cancel_my_account'), registration_path(resource_name), data: { confirm: t('.are_you_sure') }, method: :delete %>
-
-<%= link_to t('devise.shared.links.back'), :back %>
+</div>

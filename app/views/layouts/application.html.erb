@@ -8,11 +8,12 @@
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <link href="https://fonts.googleapis.com/css?family=Ubuntu" rel="stylesheet">
     <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_link_tag 'title_logo', media: 'all'%>
   </head>
 
   <body>
     <div class="app-title navbar navbar-expand-md navbar-light bg-light">
-      <div class="navbar-brand"> <a>ComicSchedule</a></div>
+      <div class="navbar-brand">ComicSchedule</div>
 
       <ul class="navbar-nav ml-auto">
         <% if current_user %>
