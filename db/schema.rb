@@ -20,6 +20,7 @@ ActiveRecord::Schema.define(version: 2020_06_24_225334) do
     t.string "title_kana"
     t.integer "volume"
     t.integer "page"
+    #date型なので_onをつける
     t.date "release"
     t.string "amazon_url"
     t.string "rakuten_url"
@@ -81,6 +82,7 @@ ActiveRecord::Schema.define(version: 2020_06_24_225334) do
     t.string "uid"
     t.string "name"
     t.integer "sex"
+    #date型なので_on をつける
     t.date "birthday"
     t.integer "notification"
     t.boolean "admin", default: false
